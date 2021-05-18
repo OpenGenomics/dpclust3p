@@ -1,14 +1,17 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 
 USER root
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update && apt-get -y install r-base libxml2 libxml2-dev libcurl4-gnutls-dev libssl-dev curl
 
-RUN R -q -e 'source("http://bioconductor.org/biocLite.R"); biocLite(c("optparse","VariantAnnotation","GenomicRanges","Rsamtools","IRanges","S4Vectors","ggplot2","reshape2"))'
+RUN R -q -e 'install.packages("BiocManager"); BiocManager::install(c("optparse","VariantAnnotation","GenomicRanges","Rsamtools","IRanges","S4Vectors","ggplot2","reshape2"))'
 
 RUN mkdir -p /opt/dpclust3p
-COPY . /opt/dpclust3p/
+#COPY . /opt/dpclust3p/
 RUN R -q -e 'install.packages("/opt/dpclust3p", repos=NULL, type="source")'
+COPY . /opt/dpclust3p/
 
 RUN mkdir /tmp/downloads
 
