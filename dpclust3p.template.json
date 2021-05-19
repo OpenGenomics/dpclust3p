@@ -1,6 +1,5 @@
 {
   "vcfpath" : "vcf_in",
   "cnapath" : "cna_in",
-  "sampleid" : "sample_in",
-  "workdir" : "workdir_in"
+  "sampleid" : "sample_in"
 }

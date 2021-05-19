@@ -107,7 +107,7 @@ writeBBlike.ASCAT <- function(ascat,ASCATFILE)
             "nMin1_E", "frac1_E", "nMaj2_E", "nMin2_E", "frac2_E", "SDfrac_E",
             "SDfrac_E_BS", "frac1_E_0.025", "frac1_E_0.975", "nMaj1_F", "nMin1_F",
             "frac1_F", "nMaj2_F", "nMin2_F", "frac2_F", "SDfrac_F", "SDfrac_F_BS",
-            "frac1_F_0.02frac1_F_0.975")
+            "frac1_F_0.025","frac1_F_0.975")
     bb <- matrix("NA",nrow(ascat),length(cn))
     colnames(bb) <- cn
     bb[,1] <- as.character(ascat[,"Chromosome"])

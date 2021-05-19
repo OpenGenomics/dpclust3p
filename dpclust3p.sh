@@ -29,7 +29,7 @@ function usage()
 	echo " [-v VCFPATH]   - Full path and name of the input VCF file."
 	echo " [-c CNAPATH]   - Full path and name of the input ASCAT (Battenberg) copy number alteration file" 
 	echo " [-s SAMPLEID]  - Sample identifier in the format of TCGA-XX-XXXX."
-	echo " [-o OUTDIR]   - Full path and name of the output directory."
+	echo " [-o OUTDIR]    - Full path and name to the 'dpclust' directory."
         exit
 }
 
@@ -40,7 +40,7 @@ while getopts ":v:c:s:o:h" Option
                 v ) VCFPATH="$OPTARG" ;;
                 c ) CNAPATH="$OPTARG" ;;
 		s ) SAMPLE="$OPTARG" ;;
-		w ) OUTDIR="$OPTARG" ;;
+		o ) OUTDIR="$OPTARG" ;;
                 h ) usage ;;
                 * ) echo "unrecognized argument. use '-h' for usage information."; exit -1 ;;
         esac
@@ -50,17 +50,6 @@ shift $(($OPTIND - 1))
 source /home/groups/EllrottLab/activate_conda
 
 DRIVERS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-if [ ! -e $OUTDIR ];
-then
-    mkdir -p $OUTDIR ;
-fi
-
-OUTPUT=$OUTDIR/$SAMPLE
-if [ ! -e $OUTPUT ];
-then
-    mkdir -p $OUTPUT ;
-fi
 
 WORKDIR=`mktemp -d -p /mnt/scratch/ dpclust3p.XXX`
 chmod -R 775 $WORKDIR
@@ -77,8 +66,7 @@ cp -r $VCFPATH $CNAPATH $CWL $WORKDIR
 cd $WORKDIR
 time cwltool --no-match-user $CWL $JSON
 
-gzip $SAMPLE_allDirichletProcessInfo.txt
-rsync -a $SAMPLE_allDirichletProcessInfo.txt.gz $OUTPUT/
+rsync -a $SAMPLE_allDirichletProcessInfo.txt $OUTDIR
 
 cd $DRIVERS
 rm -rf $WORKDIR
