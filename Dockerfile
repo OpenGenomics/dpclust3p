@@ -9,9 +9,8 @@ RUN apt-get update && apt-get -y install r-base libxml2 libxml2-dev libcurl4-gnu
 RUN R -q -e 'install.packages("BiocManager"); BiocManager::install(c("optparse","VariantAnnotation","GenomicRanges","Rsamtools","IRanges","S4Vectors","ggplot2","reshape2"))'
 
 RUN mkdir -p /opt/dpclust3p
-#COPY . /opt/dpclust3p/
-RUN R -q -e 'install.packages("/opt/dpclust3p", repos=NULL, type="source")'
 COPY . /opt/dpclust3p/
+RUN R -q -e 'install.packages("/opt/dpclust3p", repos=NULL, type="source")'
 
 RUN mkdir /tmp/downloads
 
@@ -33,6 +32,8 @@ RUN curl -sSL -o tmp.tar.gz --retry 10 https://github.com/cancerit/alleleCount/a
     cd /tmp/downloads && \
     rm -rf /tmp/downloads/alleleCount /tmp/downloads/tmp.tar.gz
 
+#RUN R -q -e 'BiocManager::install(c("data.table","devtools")); library(devtools); devtools::install_github("OpenGenomics/dpclust3p")'
+RUN R -q -e 'BiocManager::install("data.table")'
 ## USER CONFIGURATION
 RUN adduser --disabled-password --gecos '' ubuntu && chsh -s /bin/bash && mkdir -p /home/ubuntu
 
