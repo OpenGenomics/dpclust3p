@@ -1,5 +1,11 @@
 {
-  "vcfpath" : "vcf_in",
-  "cnapath" : "cna_in",
-  "sampleid" : "sample_in"
+  "vcfpath" : {
+    "class" : "File",
+    "path" : "vcf_in"
+  },
+  "cnapath" : {
+    "class" : "File",
+    "path" : "cna_in"
+  },
+  "sampleid" : "TCGA-4G-AA30"
 }

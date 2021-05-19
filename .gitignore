@@ -3,3 +3,6 @@
 .RData
 .Rbuildignore
 dpclust3p.Rproj
+TCGA*
+archive
+dpclust3p.json
