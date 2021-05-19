@@ -110,12 +110,12 @@ writeBBlike.ASCAT <- function(ascat,ASCATFILE)
             "frac1_F_0.025","frac1_F_0.975")
     bb <- matrix("NA",nrow(ascat),length(cn))
     colnames(bb) <- cn
-    bb[,1] <- as.character(ascat[,"Chromosome"])
-    bb[,2] <- as.character(ascat[,"Start"])
-    bb[,3] <- as.character(ascat[,"End"])
+    bb[,1] <- as.character(ascat[,"chr"])
+    bb[,2] <- as.character(ascat[,"startpos"])
+    bb[,3] <- as.character(ascat[,"endpos"])
     bb[,5] <- rep("1",nrow(ascat))
-    bb[,8] <- as.character(ascat[,"Major_Copy_Number"])
-    bb[,9] <- as.character(ascat[,"Minor_Copy_Number"])
+    bb[,8] <- as.character(ascat[,"nMaj1_A"])
+    bb[,9] <- as.character(ascat[,"nMin1_A"])
     bb[,10] <- rep("1",nrow(ascat))
     bb <- as.data.frame(bb)
     bb[,1] <- as.factor(as.character(bb[,1]))
@@ -157,7 +157,8 @@ getCounts <- function(vec_annot, vec_info)
 
 createAlleleCountsFile <- function(vcfdat, outfile)
 {
-    CT <- getCounts(vcfdat[,"FORMAT"],vcfdat[,"TUMOR"])
+    if (length(vcfdat$TUMOR)>0){tmr="TUMOR"}else{tmr="tumor"}
+    CT <- getCounts(vcfdat[,"FORMAT"],vcfdat[,tmr])
     counts_table <- mutwt2allelecounts(counts.alt=CT$alt,
                                        counts.ref=CT$ref,
                                        allele.alt=as.character(vcfdat[,"ALT"]),
