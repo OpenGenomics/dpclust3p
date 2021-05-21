@@ -8,11 +8,11 @@ requirements:
 
 inputs:
   vcfpath:
-    type: string
+    type: File
     inputBinding:
       position: 1
   cnapath:
-    type: string
+    type: File
     inputBinding:
       position: 2
   sampleid:
@@ -29,4 +29,4 @@ outputs:
   dpout:
     type: File
     outputBinding:
-      glob: $(inputs.sampleid)_allDirichletProcessInfo.txt
+      glob: $(inputs.sampleid)_dpInput.txt

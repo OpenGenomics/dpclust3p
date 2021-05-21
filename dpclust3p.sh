@@ -66,7 +66,7 @@ cp -r $VCFPATH $CNAPATH $CWL $WORKDIR
 cd $WORKDIR
 time cwltool --no-match-user $CWL $JSON
 
-rsync -a $SAMPLE_allDirichletProcessInfo.txt $OUTDIR
+rsync -a $SAMPLE_dpInput.txt $OUTDIR
 
 cd $DRIVERS
 rm -rf $WORKDIR

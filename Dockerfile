@@ -34,6 +34,7 @@ RUN curl -sSL -o tmp.tar.gz --retry 10 https://github.com/cancerit/alleleCount/a
 
 #RUN R -q -e 'BiocManager::install(c("data.table","devtools")); library(devtools); devtools::install_github("OpenGenomics/dpclust3p")'
 RUN R -q -e 'BiocManager::install("data.table")'
+
 ## USER CONFIGURATION
 RUN adduser --disabled-password --gecos '' ubuntu && chsh -s /bin/bash && mkdir -p /home/ubuntu
 
