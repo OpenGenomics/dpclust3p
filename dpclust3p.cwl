@@ -4,7 +4,7 @@ label: dpclust3p
 baseCommand: [ Rscript, /opt/dpclust3p/DPClust_prepareInputs_TCGA.R ]
 requirements:
   - class: DockerRequirement
-    dockerPull: opengenomics/dpclust3p:v2.0
+    dockerPull: opengenomics/dpclust3p:v3.0
 
 inputs:
   vcfpath:
