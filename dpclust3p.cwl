@@ -8,22 +8,34 @@ requirements:
 
 inputs:
   vcfpath:
-    type: File
+    type: Directory
     inputBinding:
       position: 1
   cnapath:
-    type: File
+    type: Directory
     inputBinding:
       position: 2
   sampleid:
     type: string
     inputBinding:
       position: 3
+  purity:
+    type: float
+    inputBinding:
+      position: 4
+  ploidy:
+    type: float
+    inputBinding:
+      position: 5
+  gender:
+    type: string
+    inputBinding:
+      position: 6
   workdir:
     type: string
     default: ./
     inputBinding:
-      position: 4
+      position: 7
 
 outputs:
   dpout:

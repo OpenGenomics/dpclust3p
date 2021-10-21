@@ -2,12 +2,16 @@
 ## Pipeline to preprocess TCGA mutect2 and ascat files for dpclust
 ## ################################################################
 args <- commandArgs(TRUE)
-VCFPATH <- toString(args[1]) ## path to vcf (mutect2 calls with format "AD" ref,alt counts)
-CNAPATH <- toString(args[2]) ## path to copy-number segments (ascat)
-SAMPLEID <- toString(args[3]) ## tcga sample id with format: "TCGA-4G-AAZO"
-WORKINGDIR <- toString(args[4]) ## working directory (all outputs go here)
+VCFPATH <- toString(args[1]) ## path to vcf file (mutect2 calls with format "AD" ref,alt counts)
+CNAPATH <- toString(args[2]) ## path to copy-number segments file (ascat)
+SAMPLEID <- toString(args[3]) ## sample id
+PURITY <- as.numeric(args[4]) ## tumor purity
+PLOIDY <- as.numeric(args[5]) ## tumor ploidy
+GENDER <- toString(args[6])
+WORKINGDIR <- toString(args[7]) ## working directory (all outputs go here)
 ## ################################################################
 ## author: maxime.tarabichi@ulb.be, maxime.tarabichi@crick.ac.uk
+## updated: chiotti@ohsu.edu 10.13.21
 ## ################################################################
 
 
@@ -28,7 +32,7 @@ setwd(WORKINGDIR)
 
 ## ################################################################
 ## path to summary of TCGA purity/ploidy/gender
-PATHSUMMARY <- "/opt/dpclust3p/summary.ascatTCGA.penalty70.txt"
+##PATHSUMMARY <- "/opt/dpclust3p/summary.ascatTCGA.penalty70.txt"
 ## ################################################################
 
 ## ################################################################
@@ -47,12 +51,16 @@ library(dpclust3p)
 readVCF <- function(VCFPATH) ## keeps "PASS", keeps SNV
 {
     vcf <- as.data.frame(data.table::fread(VCFPATH, skip="#CHROM"))
+    vcf[,1]=gsub(vcf[,1], pattern="chr", replacement="")
+    colnames(vcf)[(ncol(vcf)-1):ncol(vcf)]=c("NORMAL","TUMOR")
     vcf[vcf$FILTER=="PASS" & nchar(vcf$ALT)==1 & nchar(vcf$REF)==1,]
 }
 
 readCNA <- function(CNAPATH)
 {
-    as.data.frame(data.table::fread(CNAPATH))
+    cna=as.data.frame(data.table::fread(CNAPATH))
+    cna$Chromosome=gsub(cna$Chromosome, pattern="chr", replacement="")
+    cna
 }
 ## ################################################################
 
@@ -200,20 +208,26 @@ writeDPfile <- function(dpFile="dpInput.txt",
 
 
 ## ################################################################
-BBFILE <- paste0(SAMPLEID,"_bb_like_ascat.tsv")
-battenberg_rho_psi_file <- paste0(SAMPLEID,"_ASCAT_rho_and_psi.txt")
-cellularity_file <- paste0(SAMPLEID,"_ASCAT_cellularity_ploidy.txt")
-loci_file  <-  paste0(SAMPLEID,"_loci.txt")
-allelecounts_file  <-  paste0(SAMPLEID,"_alleleCounts.txt")
-DPFILE <- paste0(SAMPLEID,"_dpInput.txt")
+outdir <- file.path(WORKINGDIR,SAMPLEID)
+if (!file.exists(outdir)) { dir.create(outdir) }
+
+BBFILE <- file.path(outdir,paste0(SAMPLEID,"_bb_like_ascat.tsv"))
+battenberg_rho_psi_file <- file.path(outdir,paste0(SAMPLEID,"_ASCAT_rho_and_psi.txt"))
+cellularity_file <- file.path(outdir,paste0(SAMPLEID,"_ASCAT_cellularity_ploidy.txt"))
+loci_file  <-  file.path(outdir,paste0(SAMPLEID,"_loci.txt"))
+allelecounts_file  <-  file.path(paste0(SAMPLEID,"_alleleCounts.txt"))
+DPFILE <- file.path(paste0(SAMPLEID,"_dpInput.txt"))
 ## ################################################################
 
 
 ## ################################################################
-pp_summary <- read.table(PATHSUMMARY,sep="\t",header=T)
-purity <- pp_summary[pp_summary$name==SAMPLEID,"purity"]
-ploidy <- pp_summary[pp_summary$name==SAMPLEID,"ploidy"]
-gender <- ifelse(pp_summary[pp_summary$name==SAMPLEID,"sex"]=="XY","male","female")
+#pp_summary <- read.table(PATHSUMMARY,sep="\t",header=T)
+#purity <- pp_summary[pp_summary$name==SAMPLEID,"purity"]
+purity <- PURITY
+#ploidy <- pp_summary[pp_summary$name==SAMPLEID,"ploidy"]
+ploidy <- PLOIDY
+#gender <- ifelse(pp_summary[pp_summary$name==SAMPLEID,"sex"]=="XY","male","female")
+gender <- GENDER
 cna <- readCNA(CNAPATH)
 ## ################################################################
 

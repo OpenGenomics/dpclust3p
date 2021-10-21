@@ -1,11 +1,14 @@
 {
   "vcfpath" : {
-    "class" : "File",
+    "class" : "Directory",
     "path" : "vcf_in"
   },
   "cnapath" : {
-    "class" : "File",
+    "class" : "Directory",
     "path" : "cna_in"
   },
-  "sampleid" : "sample_in"
+  "sampleid" : "sample_in",
+  "purity" : purity_in,
+  "ploidy" : ploidy_in,
+  "gender" : "gender_in"
 }

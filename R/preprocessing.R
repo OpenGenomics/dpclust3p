@@ -418,7 +418,8 @@ GetDirichletProcessInfo<-function(outputfile, cellularity, info, subclone.file, 
       df = data.frame(matrix(ncol=16, nrow=0))
       colnames(df) = c("chr", "start", "end", "WT.count", "mut.count", "subclonal.CN", "nMaj1","nMin1", "frac1", "nMaj2", "nMin2", "frac2", "phase", "mutation.copy.number", "subclonal.fraction", "no.chrs.bearing.mut")
     }
-    write.table(df, outputfile, sep="\t", row.names=F, quote=F)
+#    write.table(df, outputfile, sep="\t", row.names=F, quote=F)
+    write.table(df, outputfile, sep="\t", row.names=paste(df$chr, paste(df$start, df$end, sep="-"),sep=":"),quote=F)
   }
   
   if (is.null(info)) {
@@ -685,6 +686,8 @@ runGetDirichletProcessInfo = function(loci_file, allele_frequencies_file, cellul
 #' @export
 dpIn2vcf = function(vcf_infile, dpIn_file, vcf_outfile, fai_file, ign_file, genome="hg19") {
   vcf = VariantAnnotation::readVcf(vcf_infile, genome=genome)
+  vcf = GenomeInfoDb::renameSeqlevels(vcf,gsub(seqlevels(vcf),pattern="chr",replacement=""))
+  rownames(vcf) = gsub(rownames(vcf), pattern="chr", replacement="")
   
   # Remove muts on chroms not to look at
   fai = parseFai(fai_file)

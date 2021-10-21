@@ -213,6 +213,8 @@ dumpCountsFromVcf = function(vcf_infile, tumour_outfile, centre, normal_outfile=
   
   # Read in the vcf and dump the tumour counts in the right format
   v = VariantAnnotation::readVcf(vcf_infile, refence_genome)
+  v = GenomeInfoDb::renameSeqlevels(v,gsub(seqlevels(v),pattern="chr",replacement=""))
+  rownames(v) = gsub(rownames(v), pattern="chr", replacement="") 
   if (nrow(v) > 0) {
     tumour = getCountsTumour(v, centre=centre, samplename=samplename, dummy_alt_allele=dummy_alt_allele, dummy_ref_allele=dummy_ref_allele)
   } else {
