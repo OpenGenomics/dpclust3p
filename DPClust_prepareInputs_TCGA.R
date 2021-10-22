@@ -215,8 +215,8 @@ BBFILE <- file.path(outdir,paste0(SAMPLEID,"_bb_like_ascat.tsv"))
 battenberg_rho_psi_file <- file.path(outdir,paste0(SAMPLEID,"_ASCAT_rho_and_psi.txt"))
 cellularity_file <- file.path(outdir,paste0(SAMPLEID,"_ASCAT_cellularity_ploidy.txt"))
 loci_file  <-  file.path(outdir,paste0(SAMPLEID,"_loci.txt"))
-allelecounts_file  <-  file.path(paste0(SAMPLEID,"_alleleCounts.txt"))
-DPFILE <- file.path(paste0(SAMPLEID,"_dpInput.txt"))
+allelecounts_file  <-  file.path(outdir,paste0(SAMPLEID,"_alleleCounts.txt"))
+DPFILE <- file.path(outdir,paste0(SAMPLEID,"_dpInput.txt"))
 ## ################################################################
 
 

@@ -80,7 +80,7 @@ cp -r $CWL $WORKDIR
 cd $WORKDIR
 time cwltool --no-match-user $CWL $JSON
 
-rsync -a $SAMPLE $OUTDIR
+rsync -a $SAMPLEID $OUTDIR
 
 cd $OUTDIR
 rm -rf $WORKDIR
