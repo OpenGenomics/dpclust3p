@@ -70,7 +70,7 @@ TMPJSON=./dpclust3p.template.json
 CWL=./dpclust3p.cwl
 JSON=$WORKDIR/dpclust3p.json
 
-sed -e "s|vcf_in|$WORKDIR\/`basename $VCFPATH`|g" -e "s|cna_in|$WORKDIR\/`basename $CNAPATH`|g" -e "s|purity_in|$PURITY|g" -e "s|ploidy_in|$PLOIDY|g" -e "s|gender_in|$GENDER|g" -e "s|sample_in|$SAMPLE|g" $TMPJSON > $JSON
+sed -e "s|vcf_in|$WORKDIR\/`basename $VCFPATH`|g" -e "s|cna_in|$WORKDIR\/`basename $CNAPATH`|g" -e "s|purity_in|$PURITY|g" -e "s|ploidy_in|$PLOIDY|g" -e "s|gender_in|$GENDER|g" -e "s|sample_in|$SAMPLEID|g" $TMPJSON > $JSON
 
 sed 's/chr//g' $VCFPATH > $WORKDIR\/`basename $VCFPATH`
 sed 's/chr//g' $CNAPATH > $WORKDIR\/`basename $CNAPATH`
