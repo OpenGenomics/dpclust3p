@@ -8,11 +8,11 @@ requirements:
 
 inputs:
   vcfpath:
-    type: Directory
+    type: File
     inputBinding:
       position: 1
   cnapath:
-    type: Directory
+    type: File
     inputBinding:
       position: 2
   sampleid:

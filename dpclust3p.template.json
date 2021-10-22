@@ -1,10 +1,10 @@
 {
   "vcfpath" : {
-    "class" : "Directory",
+    "class" : "File",
     "path" : "vcf_in"
   },
   "cnapath" : {
-    "class" : "Directory",
+    "class" : "File",
     "path" : "cna_in"
   },
   "sampleid" : "sample_in",

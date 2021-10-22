@@ -14,5 +14,5 @@ PURITY=`grep $SAMPLEID $METAFILE | awk '{print $4}'`
 PLOIDY=`grep $SAMPLEID $METAFILE | awk '{print $3}'`
 GENDER=`grep $SAMPLEID $METAFILE | awk '{print $5}'`
 
-sbatch --get-user-env dpclust3p.sh -v $VCFPATH -c $CNAPATH -u $PURITY -l $PLOIDY -g $GENDER -s $SAMPLEID -o $OUTDIR
+sbatch --get-user-env dpclust3p.sh -v $VCF -c $CNA -u $PURITY -l $PLOIDY -g $GENDER -s $SAMPLEID -o $OUTDIR
 done

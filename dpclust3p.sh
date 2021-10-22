@@ -5,7 +5,7 @@
 #SBATCH --time=10:00:00
 #SBATCH --output=dp3-%j.out
 #SBATCH --error=dp3-%j.err
-#SBATCH --job-name=dpclust3
+#SBATCH --job-name=dpclust3p
 #SBATCH --gres disk:1024
 #SBATCH --mincpus=1
 #SBATCH --cpus-per-task=1
@@ -30,11 +30,11 @@ function usage()
         echo
 	echo " [-v VCFPATH]   - Full path and name of the input VCF file [string]"
 	echo " [-c CNAPATH]   - Full path and name of the input ASCAT (Battenberg) copy number alteration file [string]" 
-	echo " [-s SAMPLEID]  - Sample identifier in the format of TCGA-XX-XXXX [string]"
+	echo " [-s SAMPLEID]  - Sample identifier [string]"
         echo " [-u PURITY]    - Tumor purity [float]"
         echo " [-l PLOIDY]    - Tumor ploidy [float]"
         echo " [-g GENDER]    - Patient gender ('male'|'female') [string]"
-	echo " [-o OUTDIR]    - Full path and name to the 'dpclust' directory [string]"
+	echo " [-o OUTDIR]    - Full path and name housing the $SAMPLEID output directory [string]"
         exit
 }
 
@@ -44,7 +44,7 @@ while getopts ":v:c:s:u:l:g:o:h" Option
         case $Option in
                 v ) VCFPATH="$OPTARG" ;;
                 c ) CNAPATH="$OPTARG" ;;
-		s ) SAMPLE="$OPTARG" ;;
+		s ) SAMPLEID="$OPTARG" ;;
                 u ) PURITY="$OPTARG" ;;
                 l ) PLOIDY="$OPTARG" ;;
                 g ) GENDER="$OPTARG" ;;
@@ -56,12 +56,11 @@ done
 shift $(($OPTIND - 1))
 
 if [[ "$VCFPATH" == "" || "$CNAPATH" == "" || "$PURITY" == "" || "$PLOIDY" == "" || "$GENDER" == "" || "$OUTDIR" == "" || "$SAMPLEID" == "" ]]
+then
         usage
 fi
 
 source /home/groups/EllrottLab/activate_conda
-
-DRIVERS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 WORKDIR=`mktemp -d -p /mnt/scratch/ dpclust3p.XXX`
 chmod -R 775 $WORKDIR
@@ -71,7 +70,7 @@ TMPJSON=./dpclust3p.template.json
 CWL=./dpclust3p.cwl
 JSON=$WORKDIR/dpclust3p.json
 
-sed -e "s|vcf_in|$WORKDIR\/`basename $VCFPATH`|g" -e "s|cna_in|$WORKDIR\/`basename $CNAPATH`|g" -e "s|purity_in|$PURITY|g"-e "s|ploidy_in|$PLOIDY|g" -e "s|gender_in|$GENDER|g" -e "s|sample_in|$SAMPLE|g" $TMPJSON > $JSON
+sed -e "s|vcf_in|$WORKDIR\/`basename $VCFPATH`|g" -e "s|cna_in|$WORKDIR\/`basename $CNAPATH`|g" -e "s|purity_in|$PURITY|g" -e "s|ploidy_in|$PLOIDY|g" -e "s|gender_in|$GENDER|g" -e "s|sample_in|$SAMPLE|g" $TMPJSON > $JSON
 
 sed 's/chr//g' $VCFPATH > $WORKDIR\/`basename $VCFPATH`
 sed 's/chr//g' $CNAPATH > $WORKDIR\/`basename $CNAPATH`
@@ -81,7 +80,7 @@ cp -r $CWL $WORKDIR
 cd $WORKDIR
 time cwltool --no-match-user $CWL $JSON
 
-rsync -a $SAMPLE_dpInput.txt $OUTDIR
+rsync -a $SAMPLE $OUTDIR
 
-cd $DRIVERS
+cd $OUTDIR
 rm -rf $WORKDIR
