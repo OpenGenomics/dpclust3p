@@ -39,6 +39,6 @@ inputs:
 
 outputs:
   dpout:
-    type: File
+    type: Directory
     outputBinding:
-      glob: $(inputs.sampleid)_dpInput.txt
+      glob: ./$(inputs.sampleid)

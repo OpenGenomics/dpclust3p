@@ -6,3 +6,5 @@ dpclust3p.Rproj
 TCGA*
 archive
 dpclust3p.json
+dpclust3p.sh
+slurm_dpclust3p.sh
