@@ -4,7 +4,7 @@ label: dpclust3p
 baseCommand: [ Rscript, /opt/dpclust3p/DPClust_prepareInputs_TCGA.R ]
 requirements:
   - class: DockerRequirement
-    dockerPull: opengenomics/dpclust3p:v3.0
+    dockerPull: docker.io/opengenomics/dpclust:v3.0
 
 inputs:
   vcfpath:
@@ -42,3 +42,7 @@ outputs:
     type: Directory
     outputBinding:
       glob: ./$(inputs.sampleid)
+  dpfile:
+    type: File
+    outputBinding:
+      glob: ./$(inputs.sampleid)/$(inputs.sampleid)_dpInput.txt
