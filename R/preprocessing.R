@@ -1,3 +1,4 @@
+library(GenomicRanges)
 ALLELECOUNTER = "alleleCounter"
 LINKAGEPULL = "Linkage_pull.pl"
 
@@ -613,16 +614,16 @@ GetWTandMutCount <- function(loci_file, allele_frequencies_file) {
   subs.data[,4] = apply(as.data.frame(subs.data[,4]), 1, function(x) { substring(x, 1,1) })
   
   subs.data.gr = GenomicRanges::GRanges(subs.data[,1], IRanges::IRanges(subs.data[,2], subs.data[,2]), rep('*', nrow(subs.data)))
-  elementMetadata(subs.data.gr) = subs.data[,c(3,4)]
+  GenomicRanges::elementMetadata(subs.data.gr) = subs.data[,c(3,4)]
   
   alleleFrequencies = read.delim(allele_frequencies_file, sep='\t', header=T, quote=NULL, stringsAsFactors=F)
   alleleFrequencies = alleleFrequencies[order(alleleFrequencies[,1],alleleFrequencies[,2]),]
   print(head(alleleFrequencies))
   alleleFrequencies.gr = GenomicRanges::GRanges(alleleFrequencies[,1], IRanges::IRanges(alleleFrequencies[,2], alleleFrequencies[,2]), rep('*', nrow(alleleFrequencies)))
-  elementMetadata(alleleFrequencies.gr) = alleleFrequencies[,3:7]
+  GenomicRanges::elementMetadata(alleleFrequencies.gr) = alleleFrequencies[,3:7]
   
   # Subset the allele frequencies by the loci we would like to include
-  overlap = findOverlaps(subs.data.gr, alleleFrequencies.gr)
+  overlap = GenomicRanges::findOverlaps(subs.data.gr, alleleFrequencies.gr)
   alleleFrequencies = alleleFrequencies[subjectHits(overlap),]
   
   nucleotides = c("A","C","G","T")
@@ -634,10 +635,10 @@ GetWTandMutCount <- function(loci_file, allele_frequencies_file) {
   combined = data.frame(chr=subs.data[,1],pos=subs.data[,2],WTCount=WT.count, mutCount=mut.count)
   colnames(combined) = c("chr","pos","WT.count","mut.count")
   
-  combined.gr = GenomicRanges::GRanges(seqnames(subs.data.gr), ranges(subs.data.gr), rep('*', nrow(subs.data)))
-  elementMetadata(combined.gr) = data.frame(WT.count=WT.count, mut.count=mut.count)
+  combined.gr = GenomicRanges::GRanges(GenomicRanges::seqnames(subs.data.gr), GenomicRanges::ranges(subs.data.gr), rep('*', nrow(subs.data)))
+  GenomicRanges::elementMetadata(combined.gr) = data.frame(WT.count=WT.count, mut.count=mut.count)
   
-  combined.gr = sortSeqlevels(combined.gr)
+  combined.gr = GenomeInfoDb::sortSeqlevels(combined.gr)
   return(combined.gr)
 }
 
