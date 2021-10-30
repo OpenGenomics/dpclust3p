@@ -419,15 +419,8 @@ GetDirichletProcessInfo<-function(outputfile, cellularity, info, subclone.file, 
       colnames(df) = c("chr", "start", "end", "WT.count", "mut.count", "subclonal.CN", "nMaj1","nMin1", "frac1", "nMaj2", "nMin2", "frac2", "phase", "mutation.copy.number", "subclonal.fraction", "no.chrs.bearing.mut")
     }
 #    write.table(df, outputfile, sep="\t", row.names=F, quote=F)
-    rwnms=paste(df$chr, paste(df$start, df$end, sep="-"),sep=":")
-    if (sum(duplicated(rwnms)) > 0) {
-      for (i in 1:length(rwnms)){
-        sfx=length(grep(rwnms[i:length(rwnms)], pattern=rwnms[i]))
-        if (sfx > 1){
-          rwnms[i]=paste(rwnms[i],sfx,sep='.')
-        }
-      }
-    }
+    rwnms=rep("DP",length(df$chr))
+    rwnms=make.names(rwnms,unique=T)
     write.table(df, outputfile, sep="\t", row.names=rwnms,quote=F)
   }
   
