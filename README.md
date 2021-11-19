@@ -1,13 +1,13 @@
 
 # DPClust pre-processing
 
-This R package contains various functions to produce input data for [DPClust](https://github.com/Wedge-Oxford/dpclust) using SNV variant calls and copy number data from [Battenberg](https://github.com/Wedge-Oxford/battenberg). Most importantly, it contains the `runGetDirichletProcessInfo` function that produces the input data for SNV based clustering.
+This R package contains various functions to produce input data for [DPClust](https://github.com/OpenGenomics/dpclust) using SNV variant calls and segment copy number data from [ASCAT]. Most importantly, it contains the `runGetDirichletProcessInfo` function that produces the input data for SNV based clustering.
 
 ## Installation instructions
-dpclust3p is an R package and can be installed with the commands right below. It also requires the [alleleCounter](https://github.com/cancerit/allelecount) tool to be in `$PATH`.
+dpclust3p is an R package and can be installed with the commands below. It also requires the [alleleCounter](https://github.com/cancerit/allelecount) tool to be in `$PATH`, when run locally.
 ```
 source("http://bioconductor.org/biocLite.R"); biocLite(c("optparse","VariantAnnotation","GenomicRanges","Rsamtools","ggplot2","IRanges","S4Vectors","reshape2"))'
-devtools::install_github("Wedge-Oxford/dpclust3p")
+devtools::install_github("OpenGenomics/dpclust3p")
 ```
 
 ## Running pre-processing
@@ -33,6 +33,6 @@ The R package contains many functions from which one can build their own pipelin
 
 This package has been Dockerised, build as follows:
 ```
-docker build -t dpclust3p:1.0.8 .
+docker build -t quay.io/ohsugdanpipelines/dpclust3p .
 ```
 
