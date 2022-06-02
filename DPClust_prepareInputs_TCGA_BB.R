@@ -229,7 +229,7 @@ DPFILE <- file.path(outdir,paste0(SAMPLEID,"_dpInput.txt"))
 #ploidy <- pp_summary[pp_summary$name==SAMPLEID,"ploidy"]
 #gender <- ifelse(pp_summary[pp_summary$name==SAMPLEID,"sex"]=="XY","male","female")
 #cna <- readCNA(CNAPATH) #For ASCAT input
-BBFILE <- read.table(CNAPATH,header=T,row.names=NULL) #for Battenberg input
+BBFILE <- as.data.frame(data.table::fread(CNAPATH)) #for Battenberg input
 ## ################################################################
 
 
