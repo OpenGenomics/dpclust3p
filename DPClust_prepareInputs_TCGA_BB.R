@@ -3,8 +3,7 @@
 ## ################################################################
 args <- commandArgs(TRUE)
 VCFPATH <- toString(args[1]) ## path to vcf file (mutect2 calls with format "AD" ref,alt counts)
-#CNAPATH <- toString(args[2]) ## path to copy-number segments file (ascat)
-BBFILE <- toString(args[2]) ## path to copy-number segments file (battenberg)
+CNAPATH <- toString(args[2])
 SAMPLEID <- toString(args[3]) ## sample id
 RHOPSI <- toString(args[4]) 
 #PURITY <- as.numeric(args[4]) ## tumor purity
@@ -229,7 +228,8 @@ DPFILE <- file.path(outdir,paste0(SAMPLEID,"_dpInput.txt"))
 #purity <- pp_summary[pp_summary$name==SAMPLEID,"purity"]
 #ploidy <- pp_summary[pp_summary$name==SAMPLEID,"ploidy"]
 #gender <- ifelse(pp_summary[pp_summary$name==SAMPLEID,"sex"]=="XY","male","female")
-#cna <- readCNA(CNAPATH)
+#cna <- readCNA(CNAPATH) #For ASCAT input
+BBFILE <- read.table(CNAPATH,header=T,row.names=NULL) #for Battenberg input
 ## ################################################################
 
 
