@@ -214,11 +214,12 @@ outdir <- file.path(WORKINGDIR,SAMPLEID)
 if (!file.exists(outdir)) { dir.create(outdir) }
 
 #BBFILE <- file.path(outdir,paste0(SAMPLEID,"_bb_like_ascat.tsv"))
+BBFILE <- CNAPATH #For Battenberg input
 #battenberg_rho_psi_file <- file.path(outdir,paste0(SAMPLEID,"_ASCAT_rho_and_psi.txt"))
 #cellularity_file <- file.path(outdir,paste0(SAMPLEID,"_ASCAT_cellularity_ploidy.txt"))
 loci_file  <-  file.path(outdir,paste0(SAMPLEID,"_loci.txt"))
 allelecounts_file  <-  file.path(outdir,paste0(SAMPLEID,"_alleleCounts.txt"))
-battenberg_rho_psi_file <- RHOPSI
+battenberg_rho_psi_file <- RHOPSI #For Battenberg input
 DPFILE <- file.path(outdir,paste0(SAMPLEID,"_dpInput.txt"))
 ## ################################################################
 
@@ -229,7 +230,6 @@ DPFILE <- file.path(outdir,paste0(SAMPLEID,"_dpInput.txt"))
 #ploidy <- pp_summary[pp_summary$name==SAMPLEID,"ploidy"]
 #gender <- ifelse(pp_summary[pp_summary$name==SAMPLEID,"sex"]=="XY","male","female")
 #cna <- readCNA(CNAPATH) #For ASCAT input
-BBFILE <- as.data.frame(data.table::fread(CNAPATH)) #for Battenberg input
 ## ################################################################
 
 
