@@ -1,7 +1,7 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: dpclust3p
-baseCommand: [ Rscript, /opt/dpclust3p/DPClust_prepareInputs_TCGA.R ]
+baseCommand: [ Rscript, /opt/dpclust3p/DPClust_prepareInputs_TCGA_BB.R ]
 requirements:
   - class: DockerRequirement
     dockerPull: quay.io/ohsugdanpipelines/dpclust
@@ -19,23 +19,19 @@ inputs:
     type: string
     inputBinding:
       position: 3
-  purity:
-    type: float
+  rho_psi:
+    type: File
     inputBinding:
       position: 4
-  ploidy:
-    type: float
-    inputBinding:
-      position: 5
   gender:
     type: string
     inputBinding:
-      position: 6
+      position: 5
   workdir:
     type: string
     default: ./
     inputBinding:
-      position: 7
+      position: 6
 
 outputs:
   dpout:

@@ -8,7 +8,9 @@
     "path" : "cna_in"
   },
   "sampleid" : "sample_in",
-  "purity" : purity_in,
-  "ploidy" : ploidy_in,
+  "rho_psi" : {
+    "class" : "File",
+    "path" : "rho_in",
+  },
   "gender" : "gender_in"
 }

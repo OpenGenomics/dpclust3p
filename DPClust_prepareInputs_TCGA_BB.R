@@ -6,7 +6,7 @@ VCFPATH <- toString(args[1]) ## path to vcf file (mutect2 calls with format "AD"
 #CNAPATH <- toString(args[2]) ## path to copy-number segments file (ascat)
 BBFILE <- toString(args[2]) ## path to copy-number segments file (battenberg)
 SAMPLEID <- toString(args[3]) ## sample id
-RHOPSI <- toString(args[4] 
+RHOPSI <- toString(args[4]) 
 #PURITY <- as.numeric(args[4]) ## tumor purity
 #PLOIDY <- as.numeric(args[5]) ## tumor ploidy
 GENDER <- toString(args[5])
