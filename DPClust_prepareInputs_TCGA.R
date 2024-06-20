@@ -70,7 +70,8 @@ readCNA <- function(CNAPATH)
 ## ################################################################
 writeRhoPsi <- function(rhopsifile, aberrant_cell_fraction, ploidy)
 {
-    cp <- cbind(1-aberrant_cell_fraction,ploidy)
+#    cp <- cbind(1-aberrant_cell_fraction,ploidy)
+    cp <- cbind(aberrant_cell_fraction,ploidy)
     cp <- cbind(cp,2*(1-cp[1,1])+cp[1,2]*cp[1,1])
     colnames(cp) <- c("cellularity","ploidy","psi")
     RP <- matrix(NA,3,5)
@@ -94,7 +95,8 @@ createLociFile <- function(vcfdat, outfile, chrom_col, pos_col, ref_col, alt_col
 
 writeCellularity <- function(cellularity_file,aberrant_cell_fraction, ploidy)
 {
-    cp <- cbind(1-aberrant_cell_fraction,ploidy)
+#    cp <- cbind(1-aberrant_cell_fraction,ploidy)
+    cp <- cbind(aberrant_cell_fraction,ploidy)
     cp <- cbind(cp,2*(1-cp[1,1])+cp[1,2]*cp[1,1])
     colnames(cp) <- c("cellularity","ploidy","psi")
     write.table(cp,file=cellularity_file,sep="\t",col.names=T,row.names=T,quote=F)
